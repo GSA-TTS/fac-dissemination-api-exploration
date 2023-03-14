@@ -1,0 +1,6 @@
+.pytest_cache
+.vscode
+python/__pycache__
+python/.pytest_cache
+racket/*~
+racket/compiled
