@@ -6,7 +6,7 @@ MAX_RESULTS = 1000000000
 
 # The base URL for the API needs to be in 
 # the env variable FAC_API_BASE
-fac_api_base = getenv('FAC_API_BASE')
+fac_api_base = getenv('API_GOV_URL')
 # We need an API key in the env as well.
 api_gov_key = getenv('API_GOV_KEY')
 
