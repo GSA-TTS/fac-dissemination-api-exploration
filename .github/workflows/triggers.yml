@@ -1,0 +1,40 @@
+---
+name: Deploy to cloud.gov
+on:
+  push:
+    branches:
+
+      - main
+      - prod
+    tags:
+      - v1.*
+  pull_request:
+    branches:
+      - main
+      - prod
+  workflow_dispatch: null
+
+jobs:
+  deploy-dev:
+    name: Deploy dev app to cloud.gov
+    if: github.event.ref == 'refs/heads/main'
+    uses: ./.github/workflows/deploy-apps.yml
+    with:
+      environment: "dev"
+    secrets: inherit
+
+  deploy-staging:
+    name: Deploy staging app to cloud.gov
+    if: github.event.ref == 'refs/heads/prod'
+    uses: ./.github/workflows/deploy-apps.yml
+    with:
+      environment: "staging"
+    secrets: inherit
+
+  deploy-production:
+    name: Deploy production to cloud.gov
+    if: github.event.ref == 'refs/tag/v1.*'
+    uses: ./.github/workflows/deploy-apps.yml
+    with:
+      environment: "production"
+    secrets: inherit
