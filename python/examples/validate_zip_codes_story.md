@@ -1,3 +1,5 @@
+# Examining zip codes
+
 As we announced at the last brown bag, we have released a "version 0" of tooling to let agencies begin exploring FAC data (and begin developing automations around that data). With time, the existence of the API will allow us (as a community) to develop and share tooling to use/explore this data.
 
 **How bad are zip codes in 2020?** (Our demo data load is mostly 2020 data.)
