@@ -29,7 +29,7 @@ The last one looks like a ham radio operator call-sign. A google search suggests
 
 ## The "bad" CFDAs
 
-What follows are all of the "bad" CFDAs that this script turned up. YMMV, they may not be bad, but they are what we found in the 2020ish data.
+What follows are all of the "bad" CFDAs that this script turned up. YMMV, they may not be bad, but they are what we found in the 2020ish data. It is almost certainly the case that the pattern might need expansion... but what is important is that we have a pattern, and can check it against historical data/discuss it as we look towards future data.
 
 ```
 00.000
