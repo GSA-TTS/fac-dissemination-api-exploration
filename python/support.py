@@ -52,6 +52,7 @@ def make_api_call(api : API):
     return uri
 
 def get_results(qurl, start=0, end=10, step=10000):
+    print(qurl)
     # print(f'[ {qurl} ]')
     results = []
     for start_point in range(start, end, step):

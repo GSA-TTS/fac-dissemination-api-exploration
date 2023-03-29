@@ -1,5 +1,6 @@
 from support import *
 import csv
+from pprint import pprint
 
 # What if I want to see submissions for my agency in a given audit year?
 def submissions_by_cfda(cfda, audit_year, columns=['dbkey', 'audit_year']):
@@ -77,21 +78,22 @@ def overview_by_cfda(cfda, year, show_monthly=True):
                     len(findings_by_date(cfda, f'{year}-{pad(month)}-01', f'{year}-{pad(month+1)}-01')))
     print('---------------------------------------------------')
 
-# National Foundation on the Arts and the Humanities
-overview_by_cfda(45, 2020, show_monthly=False)
-# Department of Transportation
-overview_by_cfda(20, 2020)
-# Appalachian Regional Commission
-overview_by_cfda(23, 2020, show_monthly=False)
-# HHS
-overview_by_cfda(93, 2020)
-# Treasury
-overview_by_cfda(21, 2020)
-# EPA
-overview_by_cfda(66, 2020)
-# HUD 
-overview_by_cfda(14, 2020)
-# NASA
-overview_by_cfda(43, 2020)
-# Ed
-overview_by_cfda(84, 2020)
+def run_multiple_agencies():
+    # National Foundation on the Arts and the Humanities
+    overview_by_cfda(45, 2020, show_monthly=False)
+    # Department of Transportation
+    overview_by_cfda(20, 2020)
+    # Appalachian Regional Commission
+    overview_by_cfda(23, 2020, show_monthly=False)
+    # HHS
+    overview_by_cfda(93, 2020)
+    # Treasury
+    overview_by_cfda(21, 2020)
+    # EPA
+    overview_by_cfda(66, 2020)
+    # HUD 
+    overview_by_cfda(14, 2020)
+    # NASA
+    overview_by_cfda(43, 2020)
+    # Ed
+    overview_by_cfda(84, 2020)
