@@ -8,6 +8,10 @@ from support import *
 from pprint import pprint
 import re
 
+# Note that this pattern now has an optional hyphen,
+# which is different from the schema in the FAC as 
+# of 20230330. Ticketed for discussion as a bug.
+# https://github.com/GSA-TTS/FAC/issues/911
 PATTERN = "^[0-9]{5}(?:[-]?[0-9]{4})?$"
 
 def catalog_zip_codes():
