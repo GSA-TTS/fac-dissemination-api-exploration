@@ -14,44 +14,76 @@ import re
 # https://github.com/GSA-TTS/FAC/issues/911
 PATTERN = "^[0-9]{5}(?:[-]?[0-9]{4})?$"
 
-def catalog_zip_codes():
-    # Get all of the zip codes from the auditee table
-    res = get_results(
-        make_query('auditee',
-                   [Select(['auditee_zip_code'])]
-                    ), start=0, end=MAX_RESULTS) 
-    
-    # Lets count how many times every zip code appears
-    # This also builds a unique set of zip codes in the DB.
-    unique = {}
-    for o in res:
-        if o['auditee_zip_code'] in unique:
-            unique[o['auditee_zip_code']] += 1
+
+def make_sense_of(zips):
+    unique_zips = {}
+    for z in zips:
+        if z in unique_zips:
+            unique_zips[z] += 1
         else:
-            unique[o['auditee_zip_code']] = 1
-    
+            unique_zips[z] = 1
+
     # Now, lets count how many different zip code lengths appear.
     # Zip codes should only be 5 digits or 9 digits.
     validation = {}
-    for zip, count in unique.items():
-        if len(zip) in validation:
-            validation[len(zip)] += 1
+    for z, count in unique_zips.items():
+        if len(z) in validation:
+            validation[len(z)] += 1
         else:
-            validation[len(zip)] = 1
+            validation[len(z)] = 1
 
-    # Return the unique set and the validation counts.
-    return (unique, validation)
+    good = 0
+    bad = 0
+    just_bad = []
+    for zip, count in unique_zips.items():
+        if re.search(PATTERN, zip):
+            good += 1
+        else:
+            bad += 1
+            just_bad.append(zip)
 
-(u, v) = catalog_zip_codes()
-pprint(v)
+    return (unique_zips, validation, good, bad, just_bad)
 
-good = 0
-bad = 0
-for zip, count in u.items():
-    if re.search(PATTERN, zip):
-        good += 1
-    else:
-        bad += 1
+def start_with_auditees():
+    # Get all of the zip codes from the auditee table
+    res = get_results(
+        make_query('general',
+                   [Query('eq', 'audit_year', 2020),
+                    Select(['auditee_id'])]
+                    ), start=0, end=MAX_RESULTS)
 
+    cleaned = uniq(list(map(lambda o: str(o['auditee_id']), res)))
+    all_results = []
+    for slice in zip(*(iter(cleaned),) * 1000):
+        joined = ",".join(slice)
+        res = get_results(
+            make_query('auditee', 
+                        [Query('in', 'id', f'({joined})'),
+                        Select(['auditee_zip_code'])]
+                        ), start=0, end=MAX_RESULTS)
+        all_results += res
+    zips = list(map(lambda o: o['auditee_zip_code'], all_results))
+    return zips
+
+def all_zips_in_auditee_table():
+    res = get_results(
+        make_query('auditee', [Select(['auditee_zip_code'])]), start=0, end=MAX_RESULTS)
+    zips = list(map(lambda o: o['auditee_zip_code'], res))
+    return zips
+
+auditee_zips = all_zips_in_auditee_table()
+(u, v, g, b, jb) = make_sense_of(auditee_zips)
+print('Starting with auditee ids, and working through to zips.')
 print(f'Sum of 5- and 9-digit zips: {v[5] + v[9]}')
-print(f'Good zips: {good}, bad: {bad}')
+print(f'Good zips: {g}, bad: {b}')
+print('Zips that did not match the pattern:')
+print(jb)
+
+auditee_zips = start_with_auditees()
+(u, v, g, b, jb) = make_sense_of(auditee_zips)
+print('Pulling every zip from the auditee table.')
+print(f'Sum of 5- and 9-digit zips: {v[5] + v[9]}')
+print(f'Good zips: {g}, bad: {b}')
+print('Zips that did not match the pattern:')
+print(jb)
+

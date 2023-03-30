@@ -2,7 +2,7 @@ import requests
 from collections import namedtuple as NT
 from os import getenv
 
-MAX_RESULTS = 1000000000
+MAX_RESULTS = 1000000
 
 # The base URL for the API needs to be in 
 # the env variable FAC_API_BASE
@@ -51,20 +51,32 @@ def make_api_call(api : API):
     # print(uri)
     return uri
 
-def get_results(qurl, start=0, end=10, step=10000):
-    print(qurl)
+def get_results(qurl, start=0, end=10, step=10000, debug=False):
+    if debug:
+        print(qurl)
     # print(f'[ {qurl} ]')
     results = []
     for start_point in range(start, end, step):
         step_end = start_point + step
-        # print(f' -- start[{start_point}] end[{step_end}] query_url[{qurl}]')
+        if debug:
+            print(f'\t-- start[{start_point}] end[{step_end}] query_url[{qurl}]')
         res = requests.get(qurl, headers={'Range-Unit': "items", 
                                         "Range": f'{start_point}-{step_end}',
                                         'X-Api-Key': api_gov_key
                                         })
         json = res.json()
+        # FIXME: There could be a list of length four when we have
+        # an error... look more closely.
         if len(json) == 0:
             break
         else:
+            if debug:
+                print(f'\t\tlen({len(json)})')
             results += json
     return results
+
+def uniq(ls):
+    h = {}
+    for o in ls:
+        h[o] = 0
+    return list(h.keys())
