@@ -6,6 +6,9 @@ site.addsitedir("..")
 # Import the support library with some helpers.
 from support import *
 from pprint import pprint
+import re
+
+PATTERN = "^[0-9]{5}(?:[-]?[0-9]{4})?$"
 
 def catalog_zip_codes():
     # Get all of the zip codes from the auditee table
@@ -37,3 +40,14 @@ def catalog_zip_codes():
 
 (u, v) = catalog_zip_codes()
 pprint(v)
+
+good = 0
+bad = 0
+for zip, count in u.items():
+    if re.search(PATTERN, zip):
+        good += 1
+    else:
+        bad += 1
+
+print(f'Sum of 5- and 9-digit zips: {v[5] + v[9]}')
+print(f'Good zips: {good}, bad: {bad}')
