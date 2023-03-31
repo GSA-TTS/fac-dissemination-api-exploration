@@ -92,6 +92,8 @@ So, this suggests that the zipcodes from 2020 are clean.
 
 A quick check suggests 2022 is clean as well.
 
+It continues after the table, though...
+
 ```
 drop table if exists general;
 
@@ -166,3 +168,37 @@ create table general (
     UEI TEXT,
     MULTIPLEUEIS TEXT);
 ```
+
+### Continuing to dig...
+
+
+```
+SELECT zipcode FROM general WHERE CAST(zipcode AS INTEGER) IS NOT zipcode;
+```
+
+This yields:
+
+```
+99689NELL
+30286Resh
+92363Robe
+40977Albe
+99762Step
+70586Domi
+26681Debr
+01609MARK
+99750Brad
+20036Robe
+```
+
+which tracks in that those are 9 characters long, but they're definitely not zipcodes. This matches what I found in my auditee-id driven query path.
+
+Are there any four digit zipcodes lurking?
+
+```
+select zipcode from general where length(zipcode) = 4;
+```
+
+No. None.
+
+So, where did the zipcode mess in the `auditee` table come from?
