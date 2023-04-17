@@ -17,7 +17,7 @@ You'll need to export two values, per the top-level README.
 You will need to create a virtual environment and install `pytest` and `requests`. 
 
 ```
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate
 pip install pytest requests
 ```

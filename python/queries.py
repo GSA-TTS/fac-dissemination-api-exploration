@@ -80,6 +80,7 @@ def overview_by_cfda(cfda, year, show_monthly=True):
 
 def run_multiple_agencies():
     # National Foundation on the Arts and the Humanities
+    # python3 -c 'import queries; queries.overview_by_cfda(45, 2020, show_monthly=False)'
     overview_by_cfda(45, 2020, show_monthly=False)
     # Department of Transportation
     overview_by_cfda(20, 2020)
