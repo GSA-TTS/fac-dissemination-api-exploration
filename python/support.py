@@ -58,6 +58,8 @@ def get_results(qurl, start=0, end=10, step=10000, debug=False):
     results = []
     for start_point in range(start, end, step):
         step_end = start_point + step
+        if step_end > end:
+            step_end = end - 1
         if debug:
             print(f'\t-- start[{start_point}] end[{step_end}] query_url[{qurl}]')
         res = requests.get(qurl, headers={'Range-Unit': "items", 
