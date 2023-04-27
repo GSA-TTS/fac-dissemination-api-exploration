@@ -69,9 +69,13 @@ def get_results(qurl, start=0, end=10, step=10000, debug=False):
         # an error... look more closely.
         if len(json) == 0:
             break
+        if 'code' in json:
+            print(f"code: {json['code']}, msg: {json['message']}")
+            break
         else:
             if debug:
                 print(f'\t\tlen({len(json)})')
+                print(json)
             results += json
     return results
 

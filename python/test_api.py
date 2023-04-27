@@ -27,3 +27,13 @@ def test_render_queries():
             == 
             render_queries([pk, q])
     )
+
+def test_submissions_by_cfda(columns=['dbkey', 'audit_year']):
+    cfda = 43
+    audit_year = 2022
+    return get_results(
+        make_query('federal_award',
+                   [Query('like', 'agency_cfda', f'{cfda}.*'),
+                    Query('eq', 'audit_year', audit_year),
+                    Select(columns)]
+                    ), start=0, end=10, debug=True)

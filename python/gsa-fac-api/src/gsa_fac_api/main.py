@@ -22,13 +22,17 @@ class FAC:
 
     def compose(self):
         url = ""
-        url += self.api_uri
+        url +   = self.api_uri
         if self._table is not None:
-            url += f"/{self._table}?"
+            url += f"/{self._table}"
         else:
             raise Exception("No table provided for FAC query.")
 
+        query_params = []
+
         if self._select is not None:
-            url += f"select={','.join(self._select)}"
+            query_params.append(f"select={','.join(self._select)}")
+        
+        url += "?" + "&".join(query_params)
         
         return url

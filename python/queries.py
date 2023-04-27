@@ -5,7 +5,7 @@ from pprint import pprint
 # What if I want to see submissions for my agency in a given audit year?
 def submissions_by_cfda(cfda, audit_year, columns=['dbkey', 'audit_year']):
     return get_results(
-        make_query('federal_award',
+        make_query('vw_federal_award',
                    [Query('like', 'agency_cfda', f'{cfda}.*'),
                     Query('eq', 'audit_year', audit_year),
                     Select(columns)]
@@ -15,7 +15,7 @@ def submissions_by_cfda(cfda, audit_year, columns=['dbkey', 'audit_year']):
 # from my agency in a given audit year?
 def direct_by_cfda(cfda, audit_year, columns=['dbkey', 'audit_year']):
     return get_results(
-        make_query('federal_award',
+        make_query('vw_federal_award',
                    [Query('like', 'agency_cfda', f'{cfda}.*'),
                     Query('eq', 'audit_year', audit_year),
                     Query('eq', 'direct', 'Y'),
@@ -25,7 +25,7 @@ def direct_by_cfda(cfda, audit_year, columns=['dbkey', 'audit_year']):
 # Hoq about findings for anything directly funded?
 def findings_for_cfda(cfda, audit_year, columns=['dbkey', 'audit_year']):
     return get_results(
-        make_query('federal_award',
+        make_query('vw_federal_award',
                    [Query('like', 'agency_cfda', f'{cfda}.*'),
                     Query('eq', 'audit_year', audit_year),
                     Query('eq', 'direct', 'Y'),
@@ -79,22 +79,23 @@ def overview_by_cfda(cfda, year, show_monthly=True):
     print('---------------------------------------------------')
 
 def run_multiple_agencies():
-    # National Foundation on the Arts and the Humanities
-    # python3 -c 'import queries; queries.overview_by_cfda(45, 2020, show_monthly=False)'
-    overview_by_cfda(45, 2020, show_monthly=False)
-    # Department of Transportation
-    overview_by_cfda(20, 2020)
-    # Appalachian Regional Commission
-    overview_by_cfda(23, 2020, show_monthly=False)
-    # HHS
-    overview_by_cfda(93, 2020)
-    # Treasury
-    overview_by_cfda(21, 2020)
-    # EPA
-    overview_by_cfda(66, 2020)
-    # HUD 
-    overview_by_cfda(14, 2020)
-    # NASA
-    overview_by_cfda(43, 2020)
-    # Ed
-    overview_by_cfda(84, 2020)
+    for year in [2022]:
+        # National Foundation on the Arts and the Humanities
+        # python3 -c 'import queries; queries.overview_by_cfda(45, 2022, show_monthly=False)'
+        overview_by_cfda(45, year, show_monthly=False)
+        # Department of Transportation
+        overview_by_cfda(20, year)
+        # Appalachian Regional Commission
+        overview_by_cfda(23, year, show_monthly=False)
+        # HHS
+        overview_by_cfda(93, year)
+        # Treasury
+        overview_by_cfda(21, year)
+        # EPA
+        overview_by_cfda(66, year)
+        # HUD 
+        overview_by_cfda(14, year)
+        # NASA
+        overview_by_cfda(43, year)
+        # Ed
+        overview_by_cfda(84, year)
