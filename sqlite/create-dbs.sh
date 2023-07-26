@@ -33,7 +33,7 @@ EOF
 .import $f $tablename
 EOF
     # https://dba.stackexchange.com/questions/175986/scripting-sqlite-with-dot-commands
-    sqlite3 -batch $dbfilename < script.sql
     done
+    sqlite3 -batch $dbfilename < script.sql
     popd
 done
